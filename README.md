@@ -7,7 +7,7 @@ generate api crud from service and contrract binding pettern
 
 #you can bind your crud contract to your crud  service file
 #ex:
-```<?php?> {/**
+```{.php} {/**
      * Register Contract and Service To bind
      */
     protected $services = [
