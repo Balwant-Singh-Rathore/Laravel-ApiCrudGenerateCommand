@@ -1,11 +1,11 @@
 # Laravel ApiCrud Generate Command
 generate api crud from service and contrract binding pettern
 
-# <h2>this command firt time generate new service provider name BindingServiceProvider</h2>
+#this command firt time generate new service provider name BindingServiceProvider  😇 😇
 
-# you can register this provider in laravel config/app.php file then
+#you can register this provider in laravel config/app.php file   😇 😇 😇  then  😋 
 
-# you can bind your crud contract to your crud  service file
+#you can bind your crud contract to your crud  service file   😋 😋  👽 👽
 #ex:
 ```.php /**
      * Register Contract and Service To bind
