@@ -1,11 +1,11 @@
 # Laravel ApiCrud Generate Command
-generate api crud from service and contrract binding pettern
+ 🤖 🤖 generate api crud from service and interface contract binding pettern  🤖 🤖
 
-#this command firt time generate new service provider name BindingServiceProvider  😇 😇
+#this command first time generate new service provider name BindingServiceProvider  😇 😇
 
 #you can register this provider in laravel config/app.php file   😇 😇 😇  then  😋 
 
-#you can bind your crud contract to your crud  service file   😋 😋  👽 👽
+#you can bind your crud interface contract to your crud service file   😋 😋  👽 👽
 #ex:
 ```.php /**
      * Register Contract and Service To bind
@@ -28,6 +28,6 @@ generate api crud from service and contrract binding pettern
 ```
    
 
-like this example you can bind service to interface 
+like this example you can bind service to interface contract
 
 #Happy Coding  🤩 🤩 🤩 🤩 🤩 🤩
