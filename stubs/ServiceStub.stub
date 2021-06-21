@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Services;
+
+use App\Contracts\{{ class }}Contract;
+use Illuminate\Database\QueryException as DatabaseQueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use InvalidArgumentException;
+
+class {{ class }}Service extends BaseService implements {{ class }}Contract
+{
+
+    /**
+     * @param string $order
+     * @param string $sort
+     * @param array $columns
+     * @return mixed
+     */
+    public function list{{ class }}s(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
+    {
+        return $this->all($columns, $order, $sort);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function find{{ class }}ById(int $id)
+    {
+        try {
+            return $this->findOneOrFail($id);
+        } catch (ModelNotFoundException $e) {
+
+            throw new ModelNotFoundException($e);
+        }
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function create{{ class }}(array $params)
+    {
+        try {
+
+        } catch (DatabaseQueryException $exception) {
+            throw new InvalidArgumentException($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function update{{ class }}(array $params)
+    {
+
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete{{ class }}($id)
+    {
+        ${{ class }} = $this->find{{ class }}ById($id);
+
+        ${{ class }}->delete();
+
+        return ${{ class }};
+    }
+}

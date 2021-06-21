@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Contracts;
+
+interface {{ class }}Contract
+{
+    /**
+     * @param string $order
+     * @param string $sort
+     * @param array $columns
+     * @return mixed
+     */
+    public function list{{ class }}s(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function find{{ class }}ById(int $id);
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function create{{ class }}(array $params);
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function update{{ class }}(array $params);
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete{{ class }}($id);
+}
