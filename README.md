@@ -38,13 +38,98 @@ like this example you can bind service to interface contract
   Author: aloisdg
   -->
 
-# Awesome Regex
-
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![Main workflow](https://github.com/aloisdg/awesome-regex/workflows/Main%20workflow/badge.svg)](https://github.com/aloisdg/awesome-regex/actions)
 
 <a href="https://github.com/Tinkal779-rathore/Laravel-ApiCrudGenerateCommand/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/Tinkal779-rathore/Laravel-ApiCrudGenerateCommand"></a>
 
+
+# Controller Look Like
+
+```.php
+         <?php
+
+      namespace App\Http\Controllers\Api\Common;
+
+      use App\Contracts\CountryContract;
+      use App\Http\Controllers\Controller;
+      use App\Http\Requests\CountryRequest;
+      use App\Models\Country;
+
+      class CountryController extends Controller
+      {
+          protected $country;
+          public function __construct(CountryContract $country)
+          {
+              $this->country = $country;
+          }
+          /**
+           * Display a listing of the resource.
+           *
+           * @return \Illuminate\Http\Response
+           */
+          public function index()
+          {
+              return $this->country->listCountryies('id','asc');
+          }
+
+          /**
+           * Store a newly created resource in storage.
+           *
+           * @param  \Illuminate\Http\Request  $request
+           * @return \Illuminate\Http\Response
+           */
+          public function store(CountryRequest $request)
+          {
+              return $this->country->createCountry($request->only(Country::ACCESSABLE_FEILDS));
+          }
+
+          /**
+           * Display the specified resource.
+           *
+           * @param  int  $id
+           * @return \Illuminate\Http\Response
+           */
+          public function show($id)
+          {
+              return $this->country->findCountryById($id);
+          }
+
+          /**
+           * Update the specified resource in storage.
+           *
+           * @param  \Illuminate\Http\Request  $request
+           * @param  int  $id
+           * @return \Illuminate\Http\Response
+           */
+          public function update(CountryRequest $request, $id)
+          {
+              return $this->country->updateCountry($request->only(Country::ACCESSABLE_FEILDS),$id);
+          }
+
+          /**
+           * Remove the specified resource from storage.
+           *
+           * @param  int  $id
+           * @return \Illuminate\Http\Response
+           */
+          public function destroy($id)
+          {
+              return $this->country->deleteCountry($id);
+          }
+
+          /**
+           * Restore the specified resource from storage.
+           *
+           * @param  int  $id
+           * @return \Illuminate\Http\Response
+           */
+          public function restore($id)
+          {
+              return $this->country->restoreCountry($id);
+          }
+      }
+
+```
 ## Introduction
 
 A curated collection of awesome Regex libraries, tools, frameworks and software. The goal is to build a categorized community-driven collection of very well-known resources.
