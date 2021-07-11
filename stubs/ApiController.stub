@@ -1,0 +1,84 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Contracts\{{ class }}Contract;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{ class }}Request;
+use App\Models\{{ class }};
+
+
+class {{ class }}Controller extends Controller
+{
+    protected ${{ modelVariable }};
+    public function __construct({{ class }}Contract ${{ modelVariable }})
+    {
+        $this->{{ modelVariable }} = ${{ modelVariable }};
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return $this->{{ modelVariable }}->list{{ modelList }}();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ class }}Request $request)
+    {
+        return $this->{{ modelVariable }}->create{{ class }}($request->only({{ class }}::ACCESSABLE_FEILDS));
+    }
+
+   /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return $this->{{ modelVariable }}->find{{ class }}ById($id);
+    }
+
+   /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{ class }}Request $request, $id)
+    {
+        return $this->{{ modelVariable }}->update{{ class }}($request->only({{ class }}::ACCESSABLE_FEILDS),$id);
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return $this->{{ modelVariable }}->delete{{ class }}($id);
+    }
+
+     /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        return $this->{{ modelVariable }}->restore{{ class }}($id);
+    }
+}
