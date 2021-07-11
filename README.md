@@ -283,7 +283,7 @@ like this example you can bind service to interface contract
           */
          public function create(array $attributes)
          {
-             Cache::forget(Str::plural($this->model));
+             Cache::forget($this->cacheName);
              return $this->model->create($attributes);
          }
 
@@ -294,7 +294,7 @@ like this example you can bind service to interface contract
           */
          public function update(array $attributes, int $id): bool
          {
-             Cache::forget(Str::plural($this->model));
+             Cache::forget($this->cacheName);
              return $this->find($id)->update($attributes);
          }
 
@@ -371,7 +371,7 @@ like this example you can bind service to interface contract
           */
          public function delete(int $id): bool
          {
-             Cache::forget(Str::plural($this->model));
+             Cache::forget($this->cacheName);
              return $this->model->find($id)->delete();
          }
 
@@ -382,8 +382,9 @@ like this example you can bind service to interface contract
           */
          public function restoreById(int $id): bool
          {
-             Cache::forget(Str::plural($this->model));
+             Cache::forget($this->cacheName);
              return $this->model->onlyTrashed()->where('id', $id)->restore();
          }
      }
+
 ```
