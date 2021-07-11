@@ -32,4 +32,15 @@ like this example you can bind service to interface contract
 
 #Happy Coding  🤩 🤩 🤩 🤩 🤩 🤩
 
+<!--
+  Title: Awesome Regex
+  Description: A curated list of amazingly awesome regex resources.
+  Author: aloisdg
+  -->
+
+# Awesome Regex
+
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![Main workflow](https://github.com/aloisdg/awesome-regex/workflows/Main%20workflow/badge.svg)](https://github.com/aloisdg/awesome-regex/actions)
+
 <a href="https://github.com/Tinkal779-rathore/Laravel-ApiCrudGenerateCommand/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/Tinkal779-rathore/Laravel-ApiCrudGenerateCommand"></a>
