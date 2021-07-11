@@ -73,4 +73,11 @@ interface BaseContract
      * @return mixed
      */
     public function delete(int $id);
+
+    /**
+     * restore one by Id
+     * @param int $id
+     * @return mixed
+     */
+    public function restoreById(int $id);
 }
