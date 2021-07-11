@@ -31,3 +31,6 @@
 like this example you can bind service to interface contract
 
 #Happy Coding  🤩 🤩 🤩 🤩 🤩 🤩
+
+
+https://img.shields.io/github/issues/Tinkal779-rathore/Laravel-ApiCrudGenerateCommand
