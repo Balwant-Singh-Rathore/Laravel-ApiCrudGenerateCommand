@@ -1,4 +1,4 @@
-# Laravel ApiCrud Generate Command Setup Guide
+# Laravel Api Crud Generator Setup Guide
  🤖 🤖 generate api crud from service and interface contract binding pettern  🤖 🤖
 
 #this command first time generate new service provider name BindingServiceProvider  😇 😇
