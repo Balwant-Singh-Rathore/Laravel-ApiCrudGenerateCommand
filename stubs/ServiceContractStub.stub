@@ -2,6 +2,10 @@
 
 namespace App\Contracts;
 
+/**
+ * Interface CountryContract
+ * @package App\Contracts
+ */
 interface {{ class }}Contract
 {
     /**
@@ -10,7 +14,7 @@ interface {{ class }}Contract
      * @param array $columns
      * @return mixed
      */
-    public function list{{ class }}s(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
+    public function list{{ modelList }}(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
 
     /**
      * @param int $id
@@ -28,11 +32,17 @@ interface {{ class }}Contract
      * @param array $params
      * @return mixed
      */
-    public function update{{ class }}(array $params);
+    public function update{{ class }}(array $params,int $id);
 
     /**
      * @param $id
      * @return bool
      */
     public function delete{{ class }}($id);
+
+     /**
+     * @param $id
+     * @return bool
+     */
+    public function restore{{ class }}($id);
 }
