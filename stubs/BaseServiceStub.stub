@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Contracts\BaseContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+
 /**
  * Class BaseService
  *
@@ -16,7 +19,8 @@ class BaseService implements BaseContract
      * @var Model
      */
     protected $model;
-
+    protected $cacheTime;
+    protected $cacheName;
     /**
      * BaseService constructor.
      * @param Model $model
@@ -24,6 +28,8 @@ class BaseService implements BaseContract
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->cacheTime = now()->addHour();
+        $this->cacheName = Str::plural($this->model) . 'PR001';
     }
 
     /**
@@ -32,6 +38,7 @@ class BaseService implements BaseContract
      */
     public function create(array $attributes)
     {
+        Cache::forget(Str::plural($this->model));
         return $this->model->create($attributes);
     }
 
@@ -40,8 +47,9 @@ class BaseService implements BaseContract
      * @param int $id
      * @return bool
      */
-    public function update(array $attributes, int $id) : bool
+    public function update(array $attributes, int $id): bool
     {
+        Cache::forget(Str::plural($this->model));
         return $this->find($id)->update($attributes);
     }
 
@@ -53,7 +61,10 @@ class BaseService implements BaseContract
      */
     public function all($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc')
     {
-        return $this->model->orderBy($orderBy, $sortBy)->get($columns);
+        $data =  Cache::remember($this->cacheName, $this->cacheTime, function () use ($columns, $orderBy, $sortBy) {
+            return $this->model->orderBy($orderBy, $sortBy)->get($columns);
+        });
+        return $data;
     }
 
     /**
@@ -62,7 +73,10 @@ class BaseService implements BaseContract
      */
     public function find(int $id)
     {
-        return $this->model->find($id);
+        $data =  Cache::remember($this->cacheName . 'single', $this->cacheTime, function () use ($id) {
+            return $this->model->find($id);
+        });
+        return $data;
     }
 
     /**
@@ -72,7 +86,10 @@ class BaseService implements BaseContract
      */
     public function findOneOrFail(int $id)
     {
-        return $this->model->findOrFail($id);
+        $data =  Cache::remember($this->cacheName . 'findOrFail', $this->cacheTime, function () use ($id) {
+            return $this->model->findOrFail($id);
+        });
+        return $data;
     }
 
     /**
@@ -107,8 +124,20 @@ class BaseService implements BaseContract
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool
+    public function delete(int $id): bool
     {
+        Cache::forget(Str::plural($this->model));
         return $this->model->find($id)->delete();
+    }
+
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function restoreById(int $id): bool
+    {
+        Cache::forget(Str::plural($this->model));
+        return $this->model->onlyTrashed()->where('id', $id)->restore();
     }
 }
