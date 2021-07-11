@@ -4,21 +4,36 @@ namespace App\Services;
 
 use App\Contracts\{{ class }}Contract;
 use Illuminate\Database\QueryException as DatabaseQueryException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
+use App\Facades\ApiResponse;
+use Doctrine\DBAL\Query\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
+use App\Models\{{ class }};
+
 
 class {{ class }}Service extends BaseService implements {{ class }}Contract
 {
 
+
+    /**
+     * {{ class }}Service constructor.
+     * @param {{ class }} $model
+     */
+    public function __construct({{ class }} $model)
+    {
+        parent::__construct($model);
+        $this->model = $model;
+    }
     /**
      * @param string $order
      * @param string $sort
      * @param array $columns
      * @return mixed
      */
-    public function list{{ class }}s(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
+    public function list{{ modelList }}(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
     {
-        return $this->all($columns, $order, $sort);
+        return ApiResponse::make(__('message.{{ message }}.list'), $this->all($columns, $order, $sort), Response::HTTP_OK);
     }
 
     /**
@@ -28,10 +43,9 @@ class {{ class }}Service extends BaseService implements {{ class }}Contract
     public function find{{ class }}ById(int $id)
     {
         try {
-            return $this->findOneOrFail($id);
+            return ApiResponse::make(__('message.{{ message }}.show'), $this->findOneOrFail($id), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
-
-            throw new ModelNotFoundException($e);
+            return ApiResponse::make(__('message.{{ message }}.not_found'), null, Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -42,9 +56,10 @@ class {{ class }}Service extends BaseService implements {{ class }}Contract
     public function create{{ class }}(array $params)
     {
         try {
-
-        } catch (DatabaseQueryException $exception) {
-            throw new InvalidArgumentException($exception->getMessage());
+            ${{ modelVariable }} = $this->create($params);
+            return ApiResponse::make(__('message.{{ message }}.add'), ${{ modelVariable }}, Response::HTTP_OK);
+        } catch (QueryException $exception) {
+            return ApiResponse::make(__('message.internal_error'), null, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -52,9 +67,14 @@ class {{ class }}Service extends BaseService implements {{ class }}Contract
      * @param array $params
      * @return mixed
      */
-    public function update{{ class }}(array $params)
+    public function update{{ class }}(array $data, int $id)
     {
-
+        try {
+            $this->update($data, $id);
+            return ApiResponse::make(__('message.{{ message }}.update'), null, Response::HTTP_OK);
+        } catch (QueryException $exception) {
+            return ApiResponse::make(__('message.internal_error'), null, Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -63,10 +83,25 @@ class {{ class }}Service extends BaseService implements {{ class }}Contract
      */
     public function delete{{ class }}($id)
     {
-        ${{ class }} = $this->find{{ class }}ById($id);
+        ${{ modelVariable }} = $this->delete($id);
+        if (${{ modelVariable }}) {
+            return ApiResponse::make(__('message.{{ message }}.deleted'), null, Response::HTTP_OK);
+        } else {
+            return ApiResponse::make(__('message.{{ message }}.not_found'), null, Response::HTTP_NOT_FOUND);
+        }
+    }
 
-        ${{ class }}->delete();
-
-        return ${{ class }};
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function restore{{ class }}($id)
+    {
+        ${{ modelVariable }} = $this->restoreById($id);
+        if (${{ modelVariable }}) {
+            return ApiResponse::make(__('message.{{ message }}.restore'), null, Response::HTTP_OK);
+        } else {
+            return ApiResponse::make(__('message.{{ message }}.not_found'), null, Response::HTTP_NOT_FOUND);
+        }
     }
 }
